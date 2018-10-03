@@ -1,0 +1,29 @@
+body {
+  background-color: lightgrey;
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+}
+.bar-chart {
+	padding: 20px;
+  margin: 0 auto;
+}
+.bar {
+	fill: steelblue;
+}
+
+.chart-card {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 350px;
+  width: 550px;
+  border-radius: 5px;
+}
+.text {
+  font-family: helvetica;
+  color: #555555;
+  padding-left: 30px;
+  padding-top: 20px;
+  font-size: 17px;
+}
