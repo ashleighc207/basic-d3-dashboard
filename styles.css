@@ -3,9 +3,10 @@ body {
   display: flex;
   justify-content: center;
   padding-top: 40px;
+  flex-wrap: wrap;
 }
 
-.bar-chart, .line-chart {
+.bar-chart, .line-chart, .donut-chart {
 	padding: 20px;
   margin: 0 auto;
   padding-left: 30px;
@@ -15,7 +16,7 @@ body {
 	fill: steelblue;
 }
 
-.bar-chart-card, .line-chart-card {
+.bar-chart-card, .line-chart-card, .donut-chart-card {
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
