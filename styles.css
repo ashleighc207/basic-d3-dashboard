@@ -4,22 +4,27 @@ body {
   justify-content: center;
   padding-top: 40px;
 }
-.bar-chart {
+
+.bar-chart, .line-chart {
 	padding: 20px;
   margin: 0 auto;
+  padding-left: 30px;
 }
+
 .bar {
 	fill: steelblue;
 }
 
-.chart-card, .line-chart-card {
+.bar-chart-card, .line-chart-card {
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   height: 350px;
   width: 550px;
   border-radius: 5px;
+  margin: 20px;
 }
+
 .text {
   font-family: helvetica;
   color: #555555;
@@ -27,3 +32,5 @@ body {
   padding-top: 20px;
   font-size: 17px;
 }
+
+
