@@ -12,7 +12,7 @@ body {
 	fill: steelblue;
 }
 
-.chart-card {
+.chart-card, .line-chart-card {
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
