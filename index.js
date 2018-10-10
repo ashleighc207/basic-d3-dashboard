@@ -134,5 +134,87 @@ createLineChart = () => {
 createLineChart()
 
 
+createDonutChart = () => {
+    let donutData = [
+                  {
+                    "age": "0-15",
+                    "percentage": 0.01233,
+                    "previous": 0.00124
+                  },
+                  {
+                    "age": "16-30",
+                    "percentage": 0.15695,
+                    "previous": 0.02678 
+                  },
+                  {
+                    "age": "31-45",
+                    "percentage": 0.40673,
+                    "previous": 0.05688
+                  },
+                  {
+                    "age": "46-60",
+                    "percentage": 0.33909,
+                    "previous": 0.40673
+                  },
+                  {
+                    "age": "61-75",
+                    "percentage": 0.05688,
+                    "previous": 0.33909
+                  },
+                  {
+                    "age": "76-90",
+                    "percentage": 0.02678,
+                    "previous": 0.15695
+                  },
+                  {
+                    "age": "91-105",
+                    "percentage": 0.00124,
+                    "previous": 0.01233
+                  }
+    ]
+
+    let width = 450;
+    let height = 200;
+    let floatFormat = d3.format('.4r');
+    let variable = "Percentage";
+    let category = "Age";
+    let radius = Math.min(width, height)/2;
+    let cornerRadius = 3;
+    let padAngle = 0.015;
+
+    let donut = d3.pie()
+        .value(function(d) { return floatFormat(d[variable]); })
+        .sort(null);
+
+    let arc = d3.arc()
+        .outerRadius(radius * 0.8)
+        .innerRadius(radius * 0.6)
+        .cornerRadius(cornerRadius)
+        .padAngle(padAngle);
+
+    let outerArc = d3.arc()
+        .outerRadius(radius * 0.9)
+        .innerRadius(radius * 0.9);
+
+    let donutChart = d3.select(".donut-chart-card")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+            .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
+
+    donutChart.append('g').attr('class', 'slices');
+    donutChart.append('g').attr('class', 'labelName');
+    donutChart.append('g').attr('class', 'lines');
+
+    let donutPath = donutChart.select(".slices")
+        .datum(donutData).selectAll("path")
+        .data(donut)
+    .enter().append("path")
+        .attr("fill", "rebeccapurple")
+        .attr("d", arc)
 
 
+}
+
+createDonutChart();
