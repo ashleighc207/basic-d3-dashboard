@@ -112,6 +112,16 @@ createLineChart = () => {
         .attr("stroke", "rebeccapurple")
         .attr("stroke-width", 2)
 
+    lineChart.selectAll("dot")
+        .data(lineData)
+        .attr("d", line)
+        .enter()
+        .append("circle")
+        .attr("r", 3.5)
+        .attr("cx", function(d) { return xScale(d.date)})
+        .attr("cy", function(d) { return yScale(d.units)})
+        .attr("fill", "rebeccapurple")
+
     lineChart.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(xScale))
