@@ -206,6 +206,11 @@ createDonutChart = () => {
             return color(d.data.age);
           }); 
 
+    group.append("text")
+        .attr("class", "name-text")
+        .text(`${d.data.age}`)
+        .attr('text-anchor', 'middle')
+        .attr('dy', '-1.2em');
 
 }
 
