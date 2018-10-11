@@ -34,4 +34,6 @@ body {
   font-size: 17px;
 }
 
-
+.donut-chart-container {
+  margin: 20px auto;
+}
