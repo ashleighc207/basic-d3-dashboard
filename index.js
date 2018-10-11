@@ -175,45 +175,31 @@ createDonutChart = () => {
 
     let width = 450;
     let height = 200;
-    let floatFormat = d3.format('.4r');
-    let variable = "Percentage";
-    let category = "Age";
     let radius = Math.min(width, height)/2;
-    let cornerRadius = 3;
-    let padAngle = 0.015;
-
-    let donut = d3.pie()
-        .value(function(d) { return floatFormat(d[variable]); })
-        .sort(null);
-
-    let arc = d3.arc()
-        .outerRadius(radius * 0.8)
-        .innerRadius(radius * 0.6)
-        .cornerRadius(cornerRadius)
-        .padAngle(padAngle);
-
-    let outerArc = d3.arc()
-        .outerRadius(radius * 0.9)
-        .innerRadius(radius * 0.9);
+    let thickness = 40;
 
     let donutChart = d3.select(".donut-chart-card")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
-        .append("g")
-            .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
+        
+    let group = donutChart.append("g")
+        .attr("transform", "translate(" + (width/2) + "," + (height/2) + ")");
 
-    donutChart.append('g').attr('class', 'slices');
-    donutChart.append('g').attr('class', 'labelName');
-    donutChart.append('g').attr('class', 'lines');
+    let arc = d3.arc()
+        .outerRadius(radius)
+        .innerRadius(radius - thickness);
 
-    let donutPath = donutChart.select(".slices")
-        .datum(donutData).selectAll("path")
-        .data(donut)
-    .enter().append("path")
-        .attr("fill", "rebeccapurple")
+    let donut = d3.pie()
+        .value(function(d) { return d.percentage; })
+        .sort(null);
+
+    let donutPath = group.selectAll("path")
+        .data(donut(donutData))
+        .enter()
+        .append("path")
         .attr("d", arc)
-
+        .attr("fill", "rebeccapurple")    
 
 }
 
