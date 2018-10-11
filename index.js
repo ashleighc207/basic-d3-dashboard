@@ -208,11 +208,12 @@ createDonutChart = () => {
 
     donutPath.append("text")
         .attr("class", "name-text")
+        .attr("fill", "black")
+        .attr("font-size", 10)
         .text(function(d, i) { 
             return d.data.age;
           })
-        .attr('text-anchor', 'middle')
-        .attr('dy', '-1.2em');
+        .attr('text-anchor', 'middle');
 
 }
 
