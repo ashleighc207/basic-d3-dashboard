@@ -174,7 +174,7 @@ createDonutChart = () => {
     let width = 450;
     let height = 300;
     let radius = Math.min(width, height)/2;
-    let thickness = 50;
+    let thickness = 60;
 
     let donutChart = d3.select(".donut-chart-card")
         .append("svg")
@@ -190,37 +190,55 @@ createDonutChart = () => {
         .range(["#770087" , "#2b009e" , "#0045b3", "#00c7c1", "#00d756", "#fdfdbb"]);  
 
     let arc = d3.arc()
-        .outerRadius(radius - 20)
+        .outerRadius(radius - 30)
         .innerRadius(radius - thickness);
 
     let donut = d3.pie()
+        .startAngle(-90 * Math.PI/180)
+        .endAngle(-90 * Math.PI/180 + 2*Math.PI)
+        .padAngle(.03)
         .value(function(d) { return d.percentage; })
         .sort(null);
 
 
-    let donutPath = group.selectAll("path")
+    let donutPath = group.selectAll(".path")
         .data(donut(donutData))
         .enter()
         .append("path")
+        .attr("class", "path")
         .attr("d", arc)
         .attr("id", function(d,i) { return "path" + i; })
         .attr('fill', function(d, i) { 
             return color(d.data.age);
-          }); 
+          })
+        .each(function(d,i) {
+            let firstArcSection = /(^.+?)L/;
+            let newArc = firstArcSection.exec( d3.select(this).attr("d") )[1];
+            donutChart.append("path")
+            .attr("class", "hiddenDonutArcs")
+            .attr("id", "donutArc"+i)
+            .attr("d", newArc)
+            .style("fill", "none");
+        });
+ 
 
     let text = group.selectAll(".label-text")
         .data(donut(donutData))
         .enter()
         .append("text")
-        .attr("dy", "-.5em")
-        .attr("dx", "4em")
+    .attr("class", "donutText")
+    .attr("dy", -13)
         .append("textPath")
-        .attr("xlink:href", function(d,i){return "#path" + i;})
+
+    .attr("startOffset","50%")
+    .style("text-anchor","middle")
+        .attr("xlink:href", function(d,i){return "#donutArc" + i;})
         .text(function(d, i) { 
-            if(d.data.percentage > 0.1) { 
+            if(d.data.percentage > 0.05) { 
             return d.data.age;
         }
           })
+
 
 }
 
