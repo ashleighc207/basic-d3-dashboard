@@ -202,8 +202,8 @@ createDonutChart = () => {
         .data(donut(donutData))
         .enter()
         .append("path")
-        .on("mouseover", function(){return tooltip.style("visibility", "visible");})
-        .on("mouseout", function() {return tooltip.style("visibility", "hidden");})
+        // .on("mouseover", function(){return tooltip.style("visibility", "visible");})
+        // .on("mouseout", function() {return tooltip.style("visibility",)})
         .attr("d", arc)
         .attr("id", function(d,i) { return "path" + i; })
         .attr('fill', function(d, i) { 
@@ -222,13 +222,38 @@ createDonutChart = () => {
         }
           })
 
-    let tooltip = d3.select(".donut-chart-card")
-          .append("div")
-          .style("position", "absolute")
-          .style("visibility", "hidden")
-          .style("z-index", "10")
-          .text("Tooltip");
+    // let tooltip = d3.select(".donut-chart-card")
+    //       .append("div")
+    //       .style("position", "absolute")
+    //       .style("visibility", "hidden")
+    //       .style("z-index", "10")
+    //       .text("Tooltip");
 
+    d3.selectAll(".path").call(toolTip);
+
+    function toolTip(selection) {
+        selection.on("mouseenter", function(donutData) {
+            console.log("i bless the rains")
+            donutChart.append("text")
+                .attr("class", "toolCircle")
+                .attr("dy", -15) //to adjust text vertical alignment in tooltip
+                .html(toolTipHTML(donutData))//add text to circle
+                .style("font-size", ".9em")
+                .style("text-anchor", "middle"); //center text in tooltip
+
+            donutChart.append("circle")
+                .attr("class", "toolCircle")
+                .attr("r", radius * 0.55) //radius of tooltip circle
+                .style("fill", color("lightGreen")) // original color(data.data[category]))
+                .style("fill-opacity", 0.35);
+
+        });
+    
+
+    selection.on("mouseout", function() {
+        d3.selectAll(".toolCircle").remove();
+    });
+    }
 }
 
 createDonutChart();
