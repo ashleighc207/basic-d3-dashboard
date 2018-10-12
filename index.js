@@ -202,6 +202,7 @@ createDonutChart = () => {
         .data(donut(donutData))
         .enter()
         .append("path")
+        .attr("class", "path")
         // .on("mouseover", function(){return tooltip.style("visibility", "visible");})
         // .on("mouseout", function() {return tooltip.style("visibility",)})
         .attr("d", arc)
@@ -222,7 +223,7 @@ createDonutChart = () => {
         }
           })
 
-    d3.selectAll(".donut-chart-card path").call(toolTip);
+    d3.selectAll(".path").call(toolTip);
 
     function toolTip(selection) {
         selection.on("mouseenter", function(donutData) {
