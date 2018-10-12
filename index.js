@@ -191,7 +191,8 @@ createDonutChart = () => {
 
     let arc = d3.arc()
         .outerRadius(radius - 30)
-        .innerRadius(radius - thickness);
+        .innerRadius(radius - thickness)
+        .cornerRadius(3);
 
     let donut = d3.pie()
         .startAngle(-90 * Math.PI/180)
@@ -226,12 +227,11 @@ createDonutChart = () => {
         .data(donut(donutData))
         .enter()
         .append("text")
-    .attr("class", "donutText")
-    .attr("dy", -13)
+        .attr("class", "text")
+        .attr("dy", -13)
         .append("textPath")
-
-    .attr("startOffset","50%")
-    .style("text-anchor","middle")
+        .attr("startOffset","50%")
+        .style("text-anchor","middle")
         .attr("xlink:href", function(d,i){return "#donutArc" + i;})
         .text(function(d, i) { 
             if(d.data.percentage > 0.05) { 
