@@ -239,6 +239,37 @@ createDonutChart = () => {
         }
           })
 
+    d3.selectAll(".path").call(toolTip);
+
+    function toolTip(selection) {
+        selection.on("mouseenter", function(donutData) {
+            donutChart.append("text")
+                .attr("class", "toolCircle")
+                .attr("dy", -15) //to adjust text vertical alignment in tooltip
+                .html("yes hi")//add text to circle
+                .style("font-size", ".9em")
+                .style("text-anchor", "middle") //center text in tooltip
+                .attr("transform", "translate(" + (width/2) + "," + (height/2) + ")");
+
+            donutChart.append("circle")
+                .attr("class", "toolCircle")
+                .attr("r", radius - thickness - 1) //radius of tooltip circle
+                .style("fill", function(donutData, i) {
+                    // console.log() 
+                    return color(i);
+                })
+                //   }) // original color(data.data[category]))
+                // .style("fill", color("0-15"))
+                // .style("fill-opacity", 0.35)
+                .attr("transform", "translate(" + (width/2) + "," + (height/2) + ")");
+
+        });
+    
+
+    selection.on("mouseout", function() {
+        d3.selectAll(".toolCircle").remove();
+    });
+    }
 
 }
 
