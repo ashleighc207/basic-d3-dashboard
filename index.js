@@ -212,12 +212,10 @@ createDonutChart = () => {
         .data(donut(donutData))
         .enter()
         .append("text")
-        .attr("dy", "-.5em")
-        .attr("dx", "4em")
         .append("textPath")
         .attr("xlink:href", function(d,i){return "#path" + i;})
         .text(function(d, i) { 
-            if(d.data.percentage > 0.1) { 
+            if(d.data.percentage > 0.05) { 
             return d.data.age;
         }
           })
