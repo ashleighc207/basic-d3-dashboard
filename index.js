@@ -183,7 +183,8 @@ createDonutChart = () => {
         .attr("class", "donut-chart-container")
         
     let group = donutChart.append("g")
-        .attr("transform", "translate(" + (width/2) + "," + (height/2) + ")");
+        .attr("transform", "translate(" + (width/2) + "," + (height/2) + ")")
+        .attr("class", "donut-chart-container-inner")
 
     let color = d3.scaleOrdinal()
         .domain(["0-15", "16-30", "31-45","46-60", "61-75", "76-90", "91-105"])
@@ -234,19 +235,26 @@ createDonutChart = () => {
         .style("text-anchor","middle")
         .attr("xlink:href", function(d,i){return "#donutArc" + i;})
         .text(function(d, i) { 
-            if(d.data.percentage > 0.05) { 
+            if(d.data.percentage > 0.05) {
             return d.data.age;
         }
           })
 
-    d3.selectAll(".path").call(toolTip);
+    d3.selectAll(".donut-chart-container-inner path").call(toolTip);
 
     function toolTip(selection) {
         selection.on("mouseenter", function(donutData) {
+            console.log(donutData)
             donutChart.append("text")
                 .attr("class", "toolCircle")
                 .attr("dy", -15) //to adjust text vertical alignment in tooltip
-                .html("yes hi")//add text to circle
+                .html(function(d) {
+                    let htmlText = "<p>" + donutData.data.age +"</p>" + "<p>" + donutData.data.percentage + "</p>" + "<p>" + donutData.data.previous + "</p>"
+                    let newHtmlText = `${donutData.data.age} ${donutData.data.percentage} ${donutData.data.previous}`
+                    // console.log(newHtmlText)
+                    console.log(htmlText)
+                    return newHtmlText
+                })//add text to circle
                 .style("font-size", ".9em")
                 .style("text-anchor", "middle") //center text in tooltip
                 .attr("transform", "translate(" + (width/2) + "," + (height/2) + ")");
@@ -259,8 +267,11 @@ createDonutChart = () => {
                     return color(i);
                 })
                 //   }) // original color(data.data[category]))
-                // .style("fill", color("0-15"))
-                // .style("fill-opacity", 0.35)
+                .style("fill", function() {
+                    return color(donutData.data.age);
+                })
+                // console.log
+                .style("fill-opacity", 0.35)
                 .attr("transform", "translate(" + (width/2) + "," + (height/2) + ")");
 
         });
