@@ -202,6 +202,8 @@ createDonutChart = () => {
         .data(donut(donutData))
         .enter()
         .append("path")
+        .on("mouseover", function(){return tooltip.style("visibility", "visible");})
+        .on("mouseout", function() {return tooltip.style("visibility", "hidden");})
         .attr("d", arc)
         .attr("id", function(d,i) { return "path" + i; })
         .attr('fill', function(d, i) { 
@@ -219,6 +221,13 @@ createDonutChart = () => {
             return d.data.age;
         }
           })
+
+    let tooltip = d3.select(".donut-chart-card")
+          .append("div")
+          .style("position", "absolute")
+          .style("visibility", "hidden")
+          .style("z-index", "10")
+          .text("Tooltip");
 
 }
 
