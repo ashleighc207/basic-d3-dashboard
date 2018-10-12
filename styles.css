@@ -26,6 +26,13 @@ body {
   margin: 20px;
 }
 
+.donut-chart-card {
+  height: 450px;
+  justify-content: center;
+}
+
+
+
 .text {
   font-family: helvetica;
   color: #555555;
