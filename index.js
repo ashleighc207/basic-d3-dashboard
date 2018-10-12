@@ -172,9 +172,9 @@ createDonutChart = () => {
       }];
 
     let width = 450;
-    let height = 200;
+    let height = 300;
     let radius = Math.min(width, height)/2;
-    let thickness = 40;
+    let thickness = 50;
 
     let donutChart = d3.select(".donut-chart-card")
         .append("svg")
@@ -190,30 +190,37 @@ createDonutChart = () => {
         .range(["#770087" , "#2b009e" , "#0045b3", "#00c7c1", "#00d756", "#fdfdbb"]);  
 
     let arc = d3.arc()
-        .outerRadius(radius)
+        .outerRadius(radius - 20)
         .innerRadius(radius - thickness);
 
     let donut = d3.pie()
         .value(function(d) { return d.percentage; })
         .sort(null);
 
+
     let donutPath = group.selectAll("path")
         .data(donut(donutData))
         .enter()
         .append("path")
         .attr("d", arc)
+        .attr("id", function(d,i) { return "path" + i; })
         .attr('fill', function(d, i) { 
             return color(d.data.age);
           }); 
 
-    donutPath.append("text")
-        .attr("class", "name-text")
-        .attr("fill", "black")
-        .attr("font-size", 10)
+    let text = group.selectAll(".label-text")
+        .data(donut(donutData))
+        .enter()
+        .append("text")
+        .attr("dy", "-.5em")
+        .attr("dx", "4em")
+        .append("textPath")
+        .attr("xlink:href", function(d,i){return "#path" + i;})
         .text(function(d, i) { 
+            if(d.data.percentage > 0.1) { 
             return d.data.age;
+        }
           })
-        .attr('text-anchor', 'middle');
 
 }
 
