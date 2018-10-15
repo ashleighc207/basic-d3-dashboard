@@ -285,3 +285,27 @@ createDonutChart = () => {
 }
 
 createDonutChart();
+
+
+createUSMapChart = () => {
+    let width = 960,
+        height = 500;
+
+    let projection = d3.geoAlbersUsa();
+    let path = d3.geoPath()
+        .projection(projection);
+
+    let map = d3.select(".map-chart-card").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    d3.json("us.json", function(error, us) {
+
+      svg.append("path")
+          .attr("class", "states")
+          .datum(topojson.feature(us, us.objects.states))
+          .attr("d", path);
+      })
+}
+
+createUSMapChart();
