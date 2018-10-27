@@ -2,6 +2,101 @@ let data = [75, 42, 80, 54];
 
 let width = 450, height = 200;
 
+// d3.csv("./shots.csv", function(data){
+//     console.log(data, 'data');
+// })
+
+let shotData = [
+    {assist:"Ty", player:"Ed", game_id: "22", period: "1", away_score: "0", home_score: "6", remaining_time: "00:11:36", converted_x: "1", converted_y: "1", result: "made"},
+    {assist:"Ty", player:"Ed", game_id: "22", period: "1", away_score: "2", home_score: "8", remaining_time: "00:10:36", converted_x: "2", converted_y: "2", result: "missed"},
+    {assist:"Lu", player:"Me", game_id: "22", period: "1", away_score: "2", home_score: "10", remaining_time: "00:09:36", converted_x: "3", converted_y: "3", result: "made"},
+    {assist:"Ed", player:"Lu", game_id: "23", period: "1", away_score: "0", home_score: "12", remaining_time: "00:19:36", converted_x: "4", converted_y: "4", result: "missed"},
+    {assist:"Lu", player:"Me", game_id: "23", period: "1", away_score: "2", home_score: "22", remaining_time: "00:17:36", converted_x: "5", converted_y: "5", result: "missed"},
+    {assist:"Ty", player:"Lu", game_id: "23", period: "1", away_score: "4", home_score: "24", remaining_time: "00:15:36", converted_x: "6", converted_y: "6", result: "made"},
+    {assist:"Lu", player:"Ed", game_id: "23", period: "2", away_score: "11", home_score: "26", remaining_time: "00:11:36", converted_x: "7", converted_y: "7", result: "made"},
+    {assist:"Me", player:"Lu", game_id: "24", period: "1", away_score: "4", home_score: "6", remaining_time: "00:08:36", converted_x: "8", converted_y: "8", result: "missed"},
+    {assist:"Ty", player:"Lu", game_id: "24", period: "2", away_score: "5", home_score: "8", remaining_time: "00:07:36", converted_x: "9", converted_y: "9", result: "made"},
+    {assist:"Lu", player:"Ed", game_id: "24", period: "2", away_score: "5", home_score: "10", remaining_time: "00:06:36", converted_x: "10", converted_y: "10", result: "missed"}
+]
+
+console.log(shotData, 'shotData');
+
+let shots = d3.select("svg") 
+    .selectAll("g")
+        .data(shotData)
+        .enter()
+        .append("g")
+            .attr("class", "shot")
+                .attr("transform", function(d){
+                    return "translate(" + 10 * d.converted_y + "," + 10 * d.converted_x + ")";
+                })
+        .on("mouseover", function(d){
+            d3.select(this).raise()
+                .append("text")
+                .attr("class", "playername")
+                .text(d.player);
+        })
+        .on("mouseout", function(d){
+            d3.select(this).lower()
+            d3.selectAll("text.playername").remove();
+        })
+
+shots.append("circle")
+                .attr("r", 55)
+                .attr("fill", function(d) {
+                    if(d.result ==="made") return "green"
+                    return "red"
+                })
+
+let players = d3.nest()
+                .key(function(d){ return d.player; })
+                .rollup(function(a){return a.length; })
+                .entries(shotData);
+
+                console.log(players)
+
+players.unshift({"key": "ALL",
+                "value": d3.sum(players, function(d) {return d.value})})
+
+let selector = d3.select("#selector");
+
+selector    
+    .selectAll("option")
+    .data(players)
+    .enter()
+    .append("option")
+            .text(function(d){ return d.key + ":" + d.value;})
+            .attr("value", function(d){return d.key})
+
+selector   
+    .on("change", function(){
+        d3.selectAll(".shot")
+            .attr("opacity", 1.0);
+        let value = selector.property("value");
+        if (value != "ALL") {
+            d3.selectAll(".shot")
+                .filter(function(d){ return d.player != value; })
+                .attr("opacity", 0.1);
+        }
+    })
+
+// yt-tutorial-card
+
+// d3.select("body")
+//     .selectAll("p")
+//     .data(["hello", "hi", "yo", "hey", "hola", "what's u", "why"])
+//     .enter()
+//     .append("p")
+//         .style("border", "solid red 2px")
+//         .text(function(d){
+//             return d + ", world"
+//         })
+
+
+
+
+
+
 createBarChart = (data, width, height) => {
     let svg = d3.select(".bar-chart-card")
         .append("svg")
