@@ -172,12 +172,27 @@ var aaChart = {};
 
         //adding tooltip to points
         d3.selectAll(".line-chart-point")
-            .on("mousemove", function(d) {
+            .on("mousemove", function(d, i) {
+                // set location as i of line (correcting for 2 lines)
+                var location = i
+                if(i > 11){
+                     location = location - 12;
+                }
+                let locationString = location.toString();
+                // set variables for coordinates
                 let x = d3.mouse(this)[0] + 40;
                 let y = d3.mouse(this)[1] - 10;
+                //set variables for tooltip text
+                let lineData0 = dataSet[0];
+                let data0 = lineData0[location].toString();
+                let lineData1 = dataSet[1];
+                let data1 = lineData1[location].toString();
+                let categoriesData = dataSet[2];
+                let dataCategory = categoriesData[location];
+                //show tooltip
                 tooltip.style("display", "inline")
                 .attr("transform", "translate(" + x + "," + y + ")");
-                tooltip.select("text").text(d);
+                tooltip.select("text").text(data0 + " " + data1 + " " + dataCategory);
             })
             .on("mouseout", function() {
                 tooltip.style("display", "none");
@@ -412,7 +427,8 @@ let barChartCategories = ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May"
 let donutChartElement = "#class-distribution";
 let donutChartData = [ {"Regular": 75}, {"Corporate Membership": 27}, {"Common App Corp": 12}, {"Regular First Time Member": 4}, {"Full": 4}, {"Student": 3}, {"Individual": 2}, {"District": 2}, {"Affiliate": 2}, {"Associate": 1}, {"Complimentary Media": 1}, {"Regular Active Age 65+": 1}, {"At-large": 1}]
 
+
+// call charts using aaChart methods and sample data
 aaChart.renderLineChart(lineChartElement, lineChartData, lineChartCategories);
 aaChart.renderBarChart(barChartElement, barChartData, barChartCategories);
 aaChart.renderDonutChart(donutChartElement, donutChartData);
-
