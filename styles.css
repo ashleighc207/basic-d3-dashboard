@@ -6,17 +6,17 @@ body {
   flex-wrap: wrap;
 }
 
-.bar-chart, .line-chart, .donut-chart {
+/* .bar-chart, .line-chart, .donut-chart {
 	padding: 20px;
   margin: 0 auto;
   padding-left: 30px;
-}
+} */
 
 .bar {
 	fill: steelblue;
 }
 
-.bar-chart-card, .line-chart-card, .donut-chart-card, .yt-tutorial-card {
+.bar-chart-card, .line-chart-card, .donut-chart-card, .yt-tutorial-card, #membership-growth {
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -26,12 +26,16 @@ body {
   margin: 20px;
 }
 
+#membership-growth {
+  height: auto;
+  width: auto;
+  padding: 2rem;
+}
+
 .donut-chart-card {
   height: 450px;
   justify-content: center;
 }
-
-
 
 .text {
   font-family: helvetica;
