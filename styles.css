@@ -6,32 +6,16 @@ body {
   flex-wrap: wrap;
 }
 
-/* .bar-chart, .line-chart, .donut-chart {
-	padding: 20px;
-  margin: 0 auto;
-  padding-left: 30px;
-} */
-
-.bar {
-	fill: steelblue;
-}
-
-.bar-chart-card, .line-chart-card, .donut-chart-card, .yt-tutorial-card, #membership-growth {
+#membership-growth, #membership-renewals, #class-distribution {
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  height: 350px;
-  width: 550px;
   border-radius: 5px;
   margin: 20px;
-}
-
-#membership-growth {
-  height: auto;
-  width: auto;
   padding: 2rem;
 }
 
+/* donut-chart-secific styling */
 .donut-chart-card {
   height: 450px;
   justify-content: center;
@@ -52,4 +36,10 @@ body {
 .donut-chart-container {
     -webkit-filter: drop-shadow( 0px 3px 3px rgba(0,0,0,.3) );
     filter: drop-shadow( 0px 3px 3px rgba(0,0,0,.25) );
+}
+
+
+/* bar-chart-specific-styling */
+.bar {
+	fill: #e87511;
 }
