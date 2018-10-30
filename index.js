@@ -299,8 +299,7 @@ createUSMapChart = () => {
         .attr("width", width)
         .attr("height", height);
 
-    d3.json("us.json", function(error, us) {
-
+    d3.json("https://d3js.org/us-10m.v1.json", function(error, us) {
       svg.append("path")
           .attr("class", "states")
           .datum(topojson.feature(us, us.objects.states))
