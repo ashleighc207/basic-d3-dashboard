@@ -188,7 +188,6 @@ var aaChart = {};
 
         // manipulate the data to make it all arrays
         let dataSet = [data.Renewals, categories];
-        console.log(element,data,categories, 'barchart')
 
         // set the dimensions of the chart
         let width = t.width,
@@ -390,7 +389,7 @@ var aaChart = {};
             E = d3.scaleLinear().domain([1, d]).rangeRound([m, .9 * y]),
             M = d3.scaleThreshold().domain(d3.range(2, d)).range(u);
         d3.queue().defer(d3.json, "../javascript/us.json").await(a)
-    }
+    } 
 }).apply(aaChart);
 //# sourceMappingURL=./aaChartLib.js.map
 
