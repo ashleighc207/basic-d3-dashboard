@@ -6,26 +6,16 @@ body {
   flex-wrap: wrap;
 }
 
-.bar-chart, .line-chart, .donut-chart {
-	padding: 20px;
-  margin: 0 auto;
-  padding-left: 30px;
-}
-
-.bar {
-	fill: steelblue;
-}
-
-.bar-chart-card, .line-chart-card, .donut-chart-card {
+#membership-growth, #membership-renewals, #class-distribution {
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  height: 350px;
-  width: 550px;
   border-radius: 5px;
   margin: 20px;
+  padding: 2rem;
 }
 
+/* donut-chart-secific styling */
 .donut-chart-card {
   height: 450px;
   justify-content: center;
@@ -38,7 +28,6 @@ body {
   border-radius: 5px;
   margin: 20px;
 }
-
 
 .text {
   font-family: helvetica;
@@ -59,4 +48,9 @@ body {
 
 .states {
   fill: blue;
+
+
+/* bar-chart-specific-styling */
+.bar {
+	fill: #e87511;
 }
