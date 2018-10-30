@@ -140,19 +140,89 @@ var aaChart = {};
 
         // append a rectangle to the tooltip to create the box
         tooltip.append("g:rect")
-          .attr("width", 100)
-          .attr("height", 60)
+          .attr("width", 120)
+          .attr("height", 70)
           .style("stroke", "#d3d3d3")
           .attr("fill", "#fff")
 
-        // append the text to the tooltip
+        // append the category text to the tooltip
         tooltip.append("g:text")
-          .attr("x", 30)
-          .attr("y", "1.2em")
-          .style("text-anchor", "middle")
-          .attr("font-size", "12px")
-          .attr("font-weight", "bold");
-        
+            .attr("class", "categoryText")
+            .attr("x", 10)
+            .attr("y", "1.2em")
+            .style("text-anchor", "left")
+            .attr("font-size", "14px")
+            .attr("font-weight", "bold");
+
+        //append the data[0] circle to the tooltip
+        tooltip.append("circle")
+            .attr("class", "data0circle")
+            .attr("cx", 20)
+            .attr("cy", "2.3em")
+            .attr("r", 4)
+            .style("fill", "orange");
+
+        //append the data[0] line to the tooltip
+        tooltip.append("line")
+            .attr("x1", 9)
+            .attr("y1", "2.3em")
+            .attr("x2", 31)
+            .attr("y2", "2.3em")
+            .attr("stroke-width", 2)
+            .attr("stroke", "orange");
+
+        //append the data[0] label to the tooltip
+        tooltip.append("g:text")
+            .attr("class", "data0label")
+            .attr("x", 35)
+            .attr("y", "3em")
+            .style("text-anchor", "left")
+            .attr("font-size", "14px")
+            .text("New:");
+
+        // append the data[0] text to the tooltip
+        tooltip.append("g:text")
+            .attr("class", "data0text")
+            .attr("x", 70)
+            .attr("y", "3em")
+            .style("text-anchor", "left")
+            .attr("font-size", "14px")
+            .attr("font-weight", "bold");
+
+         //append the data[1] circle to the tooltip
+        tooltip.append("circle")
+            .attr("class", "data1circle")
+            .attr("cx", 20)
+            .attr("cy", "3.7em")
+            .attr("r", 4)
+            .style("fill", "rebeccapurple");
+
+        //append the data[0] line to the tooltip
+        tooltip.append("line")
+            .attr("x1", 9)
+            .attr("y1", "3.7em")
+            .attr("x2", 31)
+            .attr("y2", "3.7em")
+            .attr("stroke-width", 2)
+            .attr("stroke", "rebeccapurple");
+
+        //append the data[1] label to the tooltip
+        tooltip.append("g:text")
+            .attr("class", "data1label")
+            .attr("x", 35)
+            .attr("y", "4.5em")
+            .style("text-anchor", "left")
+            .attr("font-size", "14px")
+            .text("Terminated:");
+
+        // append the data[1] text to the tooltip
+        tooltip.append("g:text")
+            .attr("class", "data1text")
+            .attr("x", 105)
+            .attr("y", "4.5em")
+            .style("text-anchor", "left")
+            .attr("font-size", "14px")
+            .attr("font-weight", "bold");
 
         // remove ticks on y axis
         lineChart.selectAll(".line-chart-y .tick line")
@@ -192,12 +262,15 @@ var aaChart = {};
                 //show tooltip
                 tooltip.style("display", "inline")
                 .attr("transform", "translate(" + x + "," + y + ")");
-                tooltip.select("text").text(data0 + " " + data1 + " " + dataCategory);
+                tooltip.select(".categoryText").html(dataCategory);
+                tooltip.select(".data0text").html(data0);
+                tooltip.select(".data1text").html(data1);
             })
             .on("mouseout", function() {
                 tooltip.style("display", "none");
             });
 
+            // tooltip.html("<p class='tooltip-text'>" + dataCategory + "</p>" + "<p class='tooltip-text'>" + data0 + "</p>" + "<p class='tooltip-text'>" + data1 + "</p>")
 
     }, this.renderBarChart = function (element, data, categories) {
 
