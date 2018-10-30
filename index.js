@@ -1,10 +1,3 @@
-/**  
- * aaChartLib.js 
- * Version:             1.0.wip
- * Last edited author:  amoore
- * Last edited issue:   N/A
- * @preserve
- */
 var aaChart = {};
 (function () {
     "use strict";
@@ -195,7 +188,6 @@ var aaChart = {};
 
         // manipulate the data to make it all arrays
         let dataSet = [data.Renewals, categories];
-        console.log(element,data,categories, 'barchart')
 
         // set the dimensions of the chart
         let width = t.width,
@@ -397,34 +389,7 @@ var aaChart = {};
             E = d3.scaleLinear().domain([1, d]).rangeRound([m, .9 * y]),
             M = d3.scaleThreshold().domain(d3.range(2, d)).range(u);
         d3.queue().defer(d3.json, "../javascript/us.json").await(a)
-    }
-
-}
-
-createDonutChart();
-
-
-createUSMapChart = () => {
-    let width = 960,
-        height = 500;
-
-    let projection = d3.geoAlbersUsa();
-    let path = d3.geoPath()
-        .projection(projection);
-
-    let map = d3.select(".map-chart-card").append("svg")
-        .attr("width", width)
-        .attr("height", height);
-
-    d3.json("https://d3js.org/us-10m.v1.json", function(error, us) {
-      svg.append("path")
-          .attr("class", "states")
-          .datum(topojson.feature(us, us.objects.states))
-          .attr("d", path);
-      })
-}
-
-createUSMapChart();
+    } 
 }).apply(aaChart);
 //# sourceMappingURL=./aaChartLib.js.map
 
