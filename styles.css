@@ -5,52 +5,61 @@ body {
   padding-top: 40px;
   flex-wrap: wrap;
 }
-
-#membership-growth, #membership-renewals, #class-distribution {
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  border-radius: 5px;
-  margin: 20px;
-  padding: 2rem;
-}
-
-/* donut-chart-secific styling */
-.donut-chart-card {
-  height: 450px;
-  justify-content: center;
-}
-
-.map-chart-card {
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  border-radius: 5px;
-  margin: 20px;
-}
-
-.text {
+h1, h2 {
+  font-weight: 500;
   font-family: helvetica;
-  color: #555555;
-  padding-left: 30px;
-  padding-top: 20px;
-  font-size: 17px;
+  font-size: .8em;
+  margin: 0px 20px;
 }
 
-.donut-chart-container {
-  margin: 20px auto;
+#bc-fake-data, #lc-fake-data, #dc-fake-data {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  border-radius: 2px;
+  margin: 10px;
+  padding: 20px 0px;
 }
 
-.donut-chart-container {
-    -webkit-filter: drop-shadow( 0px 3px 3px rgba(0,0,0,.3) );
-    filter: drop-shadow( 0px 3px 3px rgba(0,0,0,.25) );
-}
-
-.states {
-  fill: blue;
-}
-
-/* bar-chart-specific-styling */
 .bar {
-	fill: #e87511;
+  fill: #4784ED;
+}
+
+.empty-bar {
+  fill: #d8d8d8;
+}
+
+.bc-yaxis .tick line, .bc-yaxis .domain, 
+.bc-xaxis .tick line, .bc-xaxis .domain, 
+.lc-yaxis .tick line, .lc-yaxis .domain, 
+.lc-xaxis .tick line, .lc-xaxis .domain {
+  display: none;
+}
+
+
+.gridlines .tick line {
+  stroke: #a8a8a8;
+  stroke-dasharray: 2, 2;
+}
+
+.first-line {
+  fill: none;
+  stroke: #C71B75;
+  stroke-width: 2;
+}
+
+.first-point-set {
+  fill: #C71B75;
+  stroke-width: none;
+}
+
+.second-line {
+  fill: none;
+  stroke: #7B35E4;
+  stroke-width: 2;
+}
+
+.second-point-set {
+  fill: #7B35E4;
+  stroke-width: none;
 }
