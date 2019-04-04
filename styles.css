@@ -1,10 +1,11 @@
 body {
-  background-color: lightgrey;
+  background-color: #e8e8e8;
   display: flex;
   justify-content: center;
   padding-top: 40px;
   flex-wrap: wrap;
 }
+
 h1, h2 {
   font-weight: 500;
   font-family: helvetica;
@@ -62,4 +63,31 @@ h1, h2 {
 .second-point-set {
   fill: #7B35E4;
   stroke-width: none;
+}
+
+.nav-sidebar {
+   height: 100%; 
+  width: 200px;
+  position: fixed; 
+  z-index: 1; 
+  top: 0; 
+  left: 0;
+  background-color: #424242; 
+  overflow-x: hidden; 
+  padding-top: 20px;
+}
+
+.main-content {
+  padding-left: 200px;
+}
+
+@media screen and (max-width: 800px) {
+  .nav-sidebar {
+    display: none;
+  }
+
+  .main-content {
+    padding-left: 0px;
+  }
+
 }
