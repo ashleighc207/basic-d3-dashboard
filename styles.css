@@ -6,12 +6,16 @@ body {
   flex-wrap: wrap;
 }
 
-h1, h2 {
+h1, h2, p, span {
   font-weight: 500;
   font-family: helvetica;
-  font-size: .8em;
-  margin: 0px 20px;
 }
+
+h1, h2 {
+  margin: 0px 20px;
+  font-size: .8em;
+}
+
 
 #bc-fake-data, #lc-fake-data, #dc-fake-data {
   background-color: #ffffff;
@@ -79,6 +83,49 @@ h1, h2 {
 
 .main-content {
   padding-left: 200px;
+}
+
+.profile-icon {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 100px;
+}
+
+.profile-pic {
+  display: flex;
+  justify-content: space-around;
+}
+
+.username-text {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2em;
+}
+
+.section { 
+  height: 100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.selected {
+  background-color: rgba(50, 100, 200, 0.4);
+}
+
+.dashboard-icon {
+  color: rgba(255, 255, 255, 0.75);
+  margin: .3em;
+}
+
+.white-text {
+  color: rgba(255, 255, 255, 0.75);
 }
 
 @media screen and (max-width: 800px) {
