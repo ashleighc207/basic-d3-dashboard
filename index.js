@@ -200,7 +200,7 @@ var chartLibrary = {};
         // create the color scale for the donut chart
         let color = d3.scaleOrdinal()
             .domain([min, max])
-            .range(["#FF9966","#3366CC","#FF6699","#66CCFF","#3FDAA4", "#9966FF", "#0093B3"]);  
+            .range(["#66CCFF","#FF9966","#4784ED","#3FDAA4", "#7B35E4", "#C71B75", "#0093B3"]);  
 
         // create the arc
         let arc = d3.arc()
