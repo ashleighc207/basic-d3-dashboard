@@ -4,10 +4,8 @@
 This is a basic dashboard with random data using D3.js.
 
 ## How to Use
-Download or clone this repo to your machine
-- Install dependencies with `npm install` OR your favorite package manager's equivalent
-- Run `npm start` in the root directory to start the server and launch the app
-OR
+Download or clone this repo to your machine and view the html in your browser
+OR 
 - Visit the live page at https://ashleighc207.github.io/basic-d3-dashboard/
 
 ## Dependencies
