@@ -98,15 +98,20 @@ var chartLibrary = {};
             .attr("cx", function(d, i) { return xScale(dataSet[2][i]) + xScale.bandwidth()/2})
             .attr("cy", function(d) { return yScale(d)}) 
 
-    }, this.createBarChart = function (element, data, categories) {
-
-        let dataSet = [data.Renewals, categories],
-            width = 400,
-            height =  250,
-            max = d3.max(dataSet[0]),
-            min = d3.min(dataSet[0]);
-
+    }, this.createBarChart = function (element, data) {
         
+        let bcDataset = [[], []],
+            width = 400,
+            height =  250;
+        
+        data.forEach(function(item, i){
+           bcDataset[0].push(item.value)
+           bcDataset[1].push(item.category)
+        })     
+
+        let max = d3.max(bcDataset[0]),
+            min = d3.min(bcDataset[0]);
+
         let yScale = d3.scaleLinear()    
             .domain([min, max])
             .range([height - 40, 0])
@@ -114,7 +119,7 @@ var chartLibrary = {};
 
         
         let xScale = d3.scaleBand()
-            .domain(dataSet[1])
+            .domain(bcDataset[1])
             .rangeRound([0, width - 60]);
 
         
@@ -134,7 +139,7 @@ var chartLibrary = {};
 
     
         barChart.append("g")
-            .attr("transform", "translate(40, 20)")
+            .attr("transform", "translate(45, 20)")
             .call(d3.axisLeft(yScale)
             .tickSizeOuter(0).ticks(4))
             .attr("class", "bc-yaxis")
@@ -142,12 +147,12 @@ var chartLibrary = {};
         barChart.append("g")
             .attr("transform", "translate(45,20)")
             .selectAll()
-            .data(dataSet[0])
+            .data(bcDataset[0])
             .enter()
             .append("rect")
             .attr("class", "empty-bar")
             .attr("x", function(d, i) {
-                return xScale(dataSet[1][i]);
+                return xScale(bcDataset[1][i]);
             })
             .attr("height", height - 40)
             .attr("width", xScale.bandwidth() - 7)
@@ -155,14 +160,14 @@ var chartLibrary = {};
         barChart.append("g")
             .attr("transform", "translate(45,20)")
             .selectAll("bar")
-            .data(dataSet[0])
+            .data(bcDataset[0])
             .enter()
             .append("rect")
             .attr("y", function(d) {
                 return yScale(d);
             })
             .attr("x", function(d, i) {
-                return xScale(dataSet[1][i]);
+                return xScale(bcDataset[1][i]);
             })
             .attr("height", function(d, i) {
                 return (height - 40) - yScale(d);
@@ -173,15 +178,22 @@ var chartLibrary = {};
     }, this.createDonutChart = function (element, data) {
 
         // set the dimensions of the chart, the radius and the thickness of the donut
-        let width = 400,
+
+        let dcDataset = [[],[]],
+            width = 400,
             height = 250,
             radius = Math.min(width, height)/1.8,
-            thickness = 90,
-            min = Object.values(d3.min([...Object.values(data)])),
-            max = Object.values(d3.max([...Object.values(data)]));
+            thickness = 90;
 
-        // assign the data to an array
-        let dataSet = [...data];
+        data.forEach(function(item, i){
+           dcDataset[0].push(item.value)
+           dcDataset[1].push(item.category)
+        }) 
+
+        dcDataset[0].sort((a, b) => b - a)
+
+        let min = d3.min(dcDataset[1]),
+            max = d3.max(dcDataset[1]);
 
         // create an append donut chart to the element
         let donutChart = d3.select(element)
@@ -195,12 +207,15 @@ var chartLibrary = {};
             .attr("transform", "translate(" + (width/2) + "," + (height/2) + ")")
             .attr("class", "donut-chart-container-inner")
 
+        let colorArr = ['#003f5c','#2f4b7c','#665191','#a05195','#d45087','#f95d6a','#ff7c43','#ffa600'];
 
+        (dcDataset[0].length == 7) ?  colorArr.splice(4, 1) : (dcDataset[0].length == 6) ?  colorArr.splice(4, 1) && colorArr.splice(6, 1) : null
 
         // create the color scale for the donut chart
         let color = d3.scaleOrdinal()
             .domain([min, max])
-            .range(["#66CCFF","#FF9966","#4784ED","#3FDAA4", "#7B35E4", "#C71B75", "#0093B3"]);  
+            .range(colorArr); 
+
 
         // create the arc
         let arc = d3.arc()
@@ -209,21 +224,21 @@ var chartLibrary = {};
 
         // creat the donut function
         let donut = d3.pie()
-            .value(function(d) { 
-                return Object.values(d); 
+            .value(function(d) {
+                return d; 
             })
-            .sort((a, b) => Object.values(a) - Object.values(b));
+            .sort((a, b) => b - a);
 
         // create and append the donut path
         let donutPath = group.selectAll(".path")
-            .data(donut(dataSet))
+            .data(donut(dcDataset[0]))
             .enter()
             .append("path")
             .attr("class", "path")
             .attr("d", arc)
             .attr("id", function(d,i) { return "path" + i; })
-            .attr('fill', function(d) { 
-                return color(Object.values(d.data));
+            .attr('fill', function(d) {
+                return color(d.data);
             })
             .each(function(d,i) {
                 let firstArcSection = /(^.+?)L/;
@@ -239,7 +254,7 @@ var chartLibrary = {};
 }).apply(chartLibrary);
 
         // set line chart example data
-    let lineChartContainer = "#lc-fake-data";
+    let lineChartContainer = "#lc-fake-data .card-panel";
     let lineChartData = {
         DataOne: [42, 32, 50, 23, 43, 48, 52, 13, 20, 73, 36, 21],
         DataTwo: [20, 12, 60, 32, 25, 41, 30, 10, 41, 61, 42, 51]   
@@ -247,15 +262,25 @@ var chartLibrary = {};
     let lineChartCategories = ["Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep"];
 
     //set bar chart example data
-    let barChartContainer = "#bc-fake-data";
-    let barChartData = { 
-        Renewals: [4, 1, 7, 4, 5, 12, 2, 2, 0, 2, 3, 1]};
-    let barChartCategories = ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"];
+    let barChartContainer = "#bc-fake-data .card-panel";
+    let barChartData =  [ {category: "Cat 1", value: 416},
+            {category: "Cat 2", value: 100},
+            {category: "Cat 3", value: 101},
+            {category: "Cat 4", value: 284},
+            {category: "Cat 5", value: 337},
+            {category: "Cat 6", value: 678}
+        ]
 
     // donut chart example data
-    let donutChartContainer = "#dc-fake-data";
-    let donutChartData = [ {"Data A": 14}, {"Data B": 8}, {"Data C": 20}, {"Data D": 13}, {"Data F": 18}, {"Data G": 5}]
+    let donutChartContainer = "#dc-fake-data .card-panel";
+    let donutChartData = [ {category: "Data A", value: 14},
+            {category: "Data B", value: 8}, 
+            {category: "Data C", value: 20}, 
+            {category: "Data D", value: 13}, 
+            {category: "Data F", value: 18}, 
+            {category: "Data G", value: 5}
+        ]
 
     chartLibrary.createLineChart(lineChartContainer, lineChartData, lineChartCategories);
-    chartLibrary.createBarChart(barChartContainer, barChartData, barChartCategories);
+    chartLibrary.createBarChart(barChartContainer, barChartData);
     chartLibrary.createDonutChart(donutChartContainer, donutChartData);

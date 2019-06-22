@@ -14,7 +14,7 @@ OR
 - D3.js API
 
 ## How to Contribute
-Found a bug or typo? Have a cool idea for functionality not currently in the game?
+Found a bug or typo?
 
 #### Fork this repository:
 Click the Fork button in the top right

@@ -17,17 +17,19 @@ h1, h2 {
 }
 
 
-#bc-fake-data, #lc-fake-data, #dc-fake-data {
+.card-panel {
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   border-radius: 2px;
   margin: 10px;
   padding: 20px 0px;
+  width: auto;
+  box-shadow: 2px 2px 7px rgba(33,33,33,0.2);
 }
 
 .bar {
-  fill: #4784ED;
+  fill: #003f5c;
 }
 
 .empty-bar {
@@ -49,23 +51,23 @@ h1, h2 {
 
 .first-line {
   fill: none;
-  stroke: #C71B75;
+  stroke: #ff6361;
   stroke-width: 2;
 }
 
 .first-point-set {
-  fill: #C71B75;
+  fill: #ff6361;
   stroke-width: none;
 }
 
 .second-line {
   fill: none;
-  stroke: #7B35E4;
+  stroke: #58508d;
   stroke-width: 2;
 }
 
 .second-point-set {
-  fill: #7B35E4;
+  fill: #58508d;
   stroke-width: none;
 }
 
@@ -82,7 +84,10 @@ h1, h2 {
 }
 
 .main-content {
-  padding-left: 200px;
+  margin-left: 200px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .profile-icon {

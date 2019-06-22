@@ -2,11 +2,10 @@
 <html>
 	<head>
 		<script src="https://d3js.org/d3.v5.min.js"></script>
-		<script src="./index.js" type="text/javascript" charset="utf-8" async defer></script>
+		<script src="./js/index.js" type="text/javascript" charset="utf-8" async defer></script>
 		<script src="https://d3js.org/topojson.v2.min.js"></script>
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="styles.css">
-		<link rel="shortcut icon" href="/imgs/favicon-dashboard.ico" type="image/x-icon"> 
+		<link rel="stylesheet" type="text/css" href="./css/styles.css">
 		<title>Sample Dashboard</title>
 	</head>
 	<body>
@@ -32,23 +31,29 @@
 			</section>
 		</section>
 		<main class="main-content">
-			<section id="bc-fake-data">
-				<h1 class="text">
-					Fake Data 
-				</h1>
-				<h2>Some fake data below:</h2>
-			</section>
 			<section id="lc-fake-data">
-				<h1 class="text">
-					Fake Data
-				</h1>
-				<h2>Some fake data below:</h2>
+				<section class="card-panel">
+					<h1 class="text">
+						Fake Data
+					</h1>
+					<h2>Some fake data below:</h2>
+				</section>
+			</section>
+			<section id="bc-fake-data">
+				<section class="card-panel">
+					<h1 class="text">
+						Fake Data 
+					</h1>
+					<h2>Some fake data below:</h2>
+				</section>
 			</section>
 			<section id="dc-fake-data">
-				<h1 class="text">
-					Fake Data (%)
-				</h1>
-				<h2>Some fake data below:</h2>
+				<section class="card-panel">
+					<h1 class="text">
+						Fake Data (%)
+					</h1>
+					<h2>Some fake data below:</h2>
+				</section>
 			</section>
 		</main>
 	</body>
