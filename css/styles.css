@@ -84,7 +84,7 @@ h1, h2 {
 }
 
 .main-content {
-  margin-left: 200px;
+  margin-left: 275px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -139,7 +139,9 @@ h1, h2 {
   }
 
   .main-content {
-    padding-left: 0px;
+    margin-left: 0px;
   }
-
+  .card-panel {
+    max-width: 400px
+  }
 }

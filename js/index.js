@@ -2,13 +2,23 @@ var chartLibrary = {};
 
 (function () {
     "use strict";
-    this.createLineChart = function (element, data, categories) {
+    this.createLineChart = function (element, data, dimensions) {
         
-        let dataSet = [Object.values(data)[0], Object.values(data)[1], categories],
-            width = 400,
-            height = 250,
-            max = Math.ceil(Math.max(...dataSet[0], ...dataSet[1]) / 10) * 10,
-            min = Math.min(...dataSet[0], ...dataSet[1]);
+        let lcDataset = data,
+            width = dimensions.width,
+            height = dimensions.height,
+            min = 0,
+            max = 0,
+            vals = [[], []],
+            cats = [[],[]];
+
+        lcDataset.forEach(function(item, i){
+            item.values.forEach(function(innerItem, j){
+                (innerItem.value > max) ? max = innerItem.value : (innerItem.value < min) ? min = innerItem.value : null;
+                cats[i].push(innerItem.category)
+                vals[i].push(innerItem.value)
+            })
+        })
 
         let yScale = d3.scaleLinear()    
             .domain([min, max])
@@ -16,15 +26,15 @@ var chartLibrary = {};
             .nice(4)
 
         let xScale = d3.scaleBand()
-            .domain(dataSet[2])
+            .domain(cats[0])
             .rangeRound([0, width - 60]);
 
         let line = d3.line()
             .x(function(d, i) { 
-                return xScale(dataSet[2][i]) + xScale.bandwidth()/2; 
+                return xScale(d.category) + xScale.bandwidth()/2; 
             })
             .y(function(d) { 
-                return yScale(d); 
+                return yScale(d.value); 
             })
 
         let lineChart = d3.select(element)
@@ -71,38 +81,38 @@ var chartLibrary = {};
             .attr("transform", "translate(20, 20)")
 
         lineGroup.append("path")
-            .datum(dataSet[0])
+            .datum(lcDataset[0].values)
             .attr("d", line)
             .attr("class", "first-line")
 
         lineGroup.append("path")
-            .datum(dataSet[1])
+            .datum(lcDataset[1].values)
             .attr("d", line)
             .attr("class", "second-line")
 
         points.selectAll("dot")
-            .data(dataSet[0])
+            .data(lcDataset[0].values)
             .enter()
             .append("circle")
             .attr("class", "first-point-set")
             .attr("r", 4)
-            .attr("cx", function(d, i) { return xScale(dataSet[2][i]) + xScale.bandwidth()/2})
-            .attr("cy", function(d) { return yScale(d)}) 
+            .attr("cx", function(d, i) { return xScale(d.category) + xScale.bandwidth()/2})
+            .attr("cy", function(d) { return yScale(d.value)}) 
 
         points.selectAll("dot")
-            .data(dataSet[1])
+            .data(lcDataset[1].values)
             .enter()
             .append("circle")
             .attr("class", "second-point-set")
             .attr("r", 4)
-            .attr("cx", function(d, i) { return xScale(dataSet[2][i]) + xScale.bandwidth()/2})
-            .attr("cy", function(d) { return yScale(d)}) 
+            .attr("cx", function(d, i) { return xScale(d.category) + xScale.bandwidth()/2})
+            .attr("cy", function(d) { return yScale(d.value)}) 
 
-    }, this.createBarChart = function (element, data) {
+    }, this.createBarChart = function (element, data, dimensions) {
         
         let bcDataset = [[], []],
-            width = 400,
-            height =  250;
+            width = dimensions.width,
+            height =  dimensions.height;
         
         data.forEach(function(item, i){
            bcDataset[0].push(item.value)
@@ -175,13 +185,13 @@ var chartLibrary = {};
             .attr("width", xScale.bandwidth() - 7)
             .attr("class", "bar");
 
-    }, this.createDonutChart = function (element, data) {
+    }, this.createDonutChart = function (element, data, dimensions) {
 
         // set the dimensions of the chart, the radius and the thickness of the donut
 
         let dcDataset = [[],[]],
-            width = 400,
-            height = 250,
+            width = dimensions.width,
+            height = dimensions.height,
             radius = Math.min(width, height)/1.8,
             thickness = 90;
 
@@ -255,11 +265,38 @@ var chartLibrary = {};
 
         // set line chart example data
     let lineChartContainer = "#lc-fake-data .card-panel";
-    let lineChartData = {
-        DataOne: [42, 32, 50, 23, 43, 48, 52, 13, 20, 73, 36, 21],
-        DataTwo: [20, 12, 60, 32, 25, 41, 30, 10, 41, 61, 42, 51]   
-    };
-    let lineChartCategories = ["Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep"];
+    let lineChartData = [ {name: "Dataset One", 
+                values: [
+                {category : "Jan", value: 42},
+                {category : "Feb", value: 32},
+                {category : "Mar", value: 50},
+                {category : "Apr", value: 23},
+                {category : "May", value: 43},
+                {category : "Jun", value: 48},
+                {category : "Jul", value: 52},
+                {category : "Aug", value: 13},
+                {category : "Sep", value: 20},
+                {category : "Oct", value: 73},
+                {category : "Nov", value: 36},
+                {category : "Dec", value: 21}
+            ]
+            }, { name: "Dataset Two", 
+                values: [
+                {category : "Jan", value: 20},
+                {category : "Feb", value: 12},
+                {category : "Mar", value: 60},
+                {category : "Apr", value: 25},
+                {category : "May", value: 32},
+                {category : "Jun", value: 25},
+                {category : "Jul", value: 41},
+                {category : "Aug", value: 30},
+                {category : "Sep", value: 10},
+                {category : "Oct", value: 41},
+                {category : "Nov", value: 61},
+                {category : "Dec", value: 51}
+                ]
+            }];
+    let lcDimensions = {height: 250, width: 820};
 
     //set bar chart example data
     let barChartContainer = "#bc-fake-data .card-panel";
@@ -270,6 +307,7 @@ var chartLibrary = {};
             {category: "Cat 5", value: 337},
             {category: "Cat 6", value: 678}
         ]
+    let bcDimensions = {height: 250, width: 400};
 
     // donut chart example data
     let donutChartContainer = "#dc-fake-data .card-panel";
@@ -280,7 +318,8 @@ var chartLibrary = {};
             {category: "Data F", value: 18}, 
             {category: "Data G", value: 5}
         ]
+    let dcDimensions = {height: 250, width: 400};
 
-    chartLibrary.createLineChart(lineChartContainer, lineChartData, lineChartCategories);
-    chartLibrary.createBarChart(barChartContainer, barChartData);
-    chartLibrary.createDonutChart(donutChartContainer, donutChartData);
+    chartLibrary.createLineChart(lineChartContainer, lineChartData, lcDimensions);
+    chartLibrary.createBarChart(barChartContainer, barChartData, bcDimensions);
+    chartLibrary.createDonutChart(donutChartContainer, donutChartData, dcDimensions);
