@@ -39,12 +39,14 @@ var chartLibrary = {};
 
         let lineChart = d3.select(element)
             .append("svg")
-            .attr("viewbox", "0 0 400 250")
+            .attr("viewBox", "0 0 " + width + " " + height)
             .attr("width", width)
             .attr("height", height)
             .attr("class", "line-chart")
             .append("g")
-            .attr("transform", "translate(20, 0)")
+            .attr("transform", "translate(20, 0)")              
+            .style("display", "block")
+
 
         let gridlines = d3.axisLeft()
             .tickFormat("")
@@ -217,9 +219,9 @@ var chartLibrary = {};
             .attr("transform", "translate(" + (width/2) + "," + (height/2) + ")")
             .attr("class", "donut-chart-container-inner")
 
-        let colorArr = ['#003f5c','#2f4b7c','#665191','#a05195','#d45087','#f95d6a','#ff7c43','#ffa600'];
+        let colorArr = ['#ffa600','#ff7c43','#f95d6a','#d45087','#a05195','#665191','#2f4b7c', '#003f5c'];
 
-        (dcDataset[0].length == 7) ?  colorArr.splice(4, 1) : (dcDataset[0].length == 6) ?  colorArr.splice(4, 1) && colorArr.splice(6, 1) : null
+        (dcDataset[0].length == 7) ?  colorArr.splice(4,1) : (dcDataset[0].length == 6) ?  colorArr.splice(4, 1) && colorArr.splice(5, 1) :(dcDataset[0].length == 3) ?  colorArr.splice(1, 2) && colorArr.splice(2, 2) && colorArr.splice(3, 1) : null;
 
         // create the color scale for the donut chart
         let color = d3.scaleOrdinal()
@@ -242,6 +244,83 @@ var chartLibrary = {};
         // create and append the donut path
         let donutPath = group.selectAll(".path")
             .data(donut(dcDataset[0]))
+            .enter()
+            .append("path")
+            .attr("class", "path")
+            .attr("d", arc)
+            .attr("id", function(d,i) { return "path" + i; })
+            .attr('fill', function(d) {
+                return color(d.data);
+            })
+            .each(function(d,i) {
+                let firstArcSection = /(^.+?)L/;
+                let newArc = firstArcSection.exec( d3.select(this).attr("d") )[1];
+                donutChart.append("path")
+                .attr("class", "hiddenDonutArcs")
+                .attr("id", "donutArc"+i)
+                .attr("d", newArc)
+                .style("fill", "none");
+            }); 
+
+    }, this.createPieChart = function (element, data, dimensions) {
+
+        // set the dimensions of the chart, the radius and the thickness of the donut
+
+        let pcDataset = [[],[]],
+            width = dimensions.width,
+            height = dimensions.height,
+            radius = Math.min(width, height)/1.8,
+            thickness = 30;
+
+        data.forEach(function(item, i){
+           pcDataset[0].push(item.value)
+           pcDataset[1].push(item.category)
+        }) 
+
+        pcDataset[0].sort((a, b) => b - a)
+
+        let min = d3.min(pcDataset[1]),
+            max = d3.max(pcDataset[1]);
+
+        // create an append donut chart to the element
+        let donutChart = d3.select(element)
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("class", "donut-chart-container")
+
+        // create a group for the inner arc, used for tool tips
+        let group = donutChart.append("g")
+            .attr("transform", "translate(" + (width/2) + "," + (height/2) + ")")
+            .attr("class", "donut-chart-container-inner")
+
+        let colorArr = ['#ffa600','#ff7c43','#f95d6a','#d45087','#a05195','#665191','#2f4b7c', '#003f5c'];
+
+        (pcDataset[0].length == 7) ?  colorArr.splice(1, 4) : (pcDataset[0].length == 6) ?  colorArr.splice(1, 4) && colorArr.splice(6, 1) :(pcDataset[0].length == 3) ?  colorArr.splice(1, 2) && colorArr.splice(2, 2) && colorArr.splice(3, 1) : null;
+
+        console.log(colorArr)
+
+        // create the color scale for the donut chart
+        let color = d3.scaleOrdinal()
+            .domain([min, max])
+            .range(colorArr); 
+
+
+        // create the arc
+        let arc = d3.arc()
+            .outerRadius(radius - 30)
+            .innerRadius(0)
+
+        // creat the donut function
+        let donut = d3.pie()
+            .value(function(d) {
+                return d; 
+            })
+            .sort((a, b) => b - a);
+
+        // create and append the donut path
+        let donutPath = group.selectAll(".path")
+            .data(donut(pcDataset[0]))
             .enter()
             .append("path")
             .attr("class", "path")
@@ -320,6 +399,15 @@ var chartLibrary = {};
         ]
     let dcDimensions = {height: 250, width: 400};
 
+    // pie chart example data
+    let pieChartContainer = "#pc-fake-data .card-panel";
+    let pieChartData = [ {category: "Data A", value: 9},
+            {category: "Data B", value: 18}, 
+            {category: "Data C", value: 2}
+        ]
+    let pcDimensions = {height: 250, width: 400};
+
     chartLibrary.createLineChart(lineChartContainer, lineChartData, lcDimensions);
     chartLibrary.createBarChart(barChartContainer, barChartData, bcDimensions);
     chartLibrary.createDonutChart(donutChartContainer, donutChartData, dcDimensions);
+    chartLibrary.createPieChart(pieChartContainer, pieChartData, pcDimensions);

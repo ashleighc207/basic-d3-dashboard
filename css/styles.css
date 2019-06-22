@@ -16,6 +16,9 @@ h1, h2 {
   font-size: .8em;
 }
 
+svg {
+  max-width: 100%;
+}
 
 .card-panel {
   background-color: #ffffff;
@@ -140,6 +143,7 @@ h1, h2 {
 
   .main-content {
     margin-left: 0px;
+    width: auto;
   }
   .card-panel {
     max-width: 400px
